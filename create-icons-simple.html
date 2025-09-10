@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>아이콘 생성기 - 간단 버전</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 20px; border-radius: 10px; }
+        canvas { border: 1px solid #ddd; margin: 10px; display: block; }
+        button { background: #3498db; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin: 5px; }
+        button:hover { background: #2980b9; }
+        .download-section { margin-top: 20px; padding: 20px; background: #f8f9fa; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 중국점 분석기 아이콘 생성기</h1>
+        <p>아이콘을 생성하고 다운로드하세요.</p>
+        
+        <div>
+            <h3>192x192 아이콘</h3>
+            <canvas id="canvas192" width="192" height="192"></canvas>
+            <button onclick="downloadIcon('canvas192', 'icon-192.png')">192x192 다운로드</button>
+        </div>
+        
+        <div>
+            <h3>512x512 아이콘</h3>
+            <canvas id="canvas512" width="512" height="512"></canvas>
+            <button onclick="downloadIcon('canvas512', 'icon-512.png')">512x512 다운로드</button>
+        </div>
+        
+        <div class="download-section">
+            <h3>📱 사용 방법</h3>
+            <ol>
+                <li>위의 "다운로드" 버튼을 클릭하여 아이콘 파일들을 저장하세요</li>
+                <li>다운로드된 파일들을 프로젝트 폴더에 복사하세요</li>
+                <li>이제 PWA Builder에서 사용할 수 있습니다!</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        function generateIcon(canvasId, size) {
+            const canvas = document.getElementById(canvasId);
+            const ctx = canvas.getContext('2d');
+            
+            // 배경
+            ctx.fillStyle = '#151924';
+            ctx.fillRect(0, 0, size, size);
+            
+            // 원형 테두리
+            ctx.strokeStyle = '#3498db';
+            ctx.lineWidth = size * 0.04;
+            ctx.beginPath();
+            ctx.arc(size/2, size/2, size * 0.4, 0, 2 * Math.PI);
+            ctx.stroke();
+            
+            // 중앙 원 (빨간색)
+            ctx.fillStyle = '#e74c3c';
+            ctx.beginPath();
+            ctx.arc(size/2, size/2, size * 0.15, 0, 2 * Math.PI);
+            ctx.fill();
+            
+            // 중앙 원 (파란색)
+            ctx.fillStyle = '#3498db';
+            ctx.beginPath();
+            ctx.arc(size/2, size/2, size * 0.1, 0, 2 * Math.PI);
+            ctx.fill();
+        }
+        
+        function downloadIcon(canvasId, filename) {
+            const canvas = document.getElementById(canvasId);
+            const link = document.createElement('a');
+            link.download = filename;
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+        
+        // 페이지 로드 시 아이콘 생성
+        window.onload = function() {
+            generateIcon('canvas192', 192);
+            generateIcon('canvas512', 512);
+        };
+    </script>
+</body>
+</html>
